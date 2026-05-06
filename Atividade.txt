@@ -1,0 +1,23 @@
+
+Equipes de 3 a 6 alunos
+
+Cada aluno deve:
+- Criar um novo projeto SpringBoot (Spring Web + Thymeleaf + MySQL)
+- Construir um CRUD (web) para tabela com o seu nome (e sobrenome) com no minimo 5
+- Para a construção use o projeto feito em sala
+
+A equipe deve zipar o projeto de cada integrante e encaminhar da seguinte forma:
+
+email: diogo.p.ranghetti@gmail.com
+Assunto: FDJ - atividade em equipe
+Indicar os integrantes da equipe e anexar os zip's dos projetos.
+
+Enviar até 13/04/2026
+
+A conclusão será conciderada com base na entrega de todos os integrantes.
+
+
+
+
+
+

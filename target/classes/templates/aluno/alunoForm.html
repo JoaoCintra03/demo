@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head}"></head>
+<body>
+<nav th:replace="~{fragments/fragments :: navbar}"></nav>
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">Novo Cadastro de Aluno</h3>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/alunos/salvar}" method="post">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label font-weight-bold">RA</label>
+                        <input type="number" class="form-control" name="ra" required>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label font-weight-bold">Nome Completo</label>
+                        <input type="text" class="form-control" name="nome" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label font-weight-bold">CPF</label>
+                        <input type="text" class="form-control" name="cpf" required>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label font-weight-bold">Endereço</label>
+                        <input type="text" class="form-control" name="endereco" required>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success px-4">Salvar Registro</button>
+                    <a th:href="@{/alunos}" class="btn btn-secondary px-4">Voltar para Lista</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/fragments :: scripts}"></div>
+</body>
+</html>

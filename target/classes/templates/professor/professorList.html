@@ -1,0 +1,35 @@
+<div class="container" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="p-3 m-0 border-0 bd-example m-0 border-0">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-primary" th:href="@{/professores/new}">Novo</a>
+        </div>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Título</th>
+            <th>Endereço</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="professor : ${professores}">
+            <td th:text="${professor.id}">id</td>
+            <td th:text="${professor.nome}">Nome</td>
+            <td th:text="${professor.titulo}">Título</td>
+            <td th:text="${professor.endereco}">Endereço</td>
+            <td>
+                <a class="btn btn-outline-success"
+                   th:href="@{'/professores/alterar/' + ${professor.id}}">Editar</a>
+
+                <a class="btn btn-outline-danger"
+                   th:href="@{'/professores/remover/' + ${professor.id}}">Remover</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
