@@ -1,23 +1,46 @@
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8">
-    <title>Cadastro de Aluno</title>
-  </head>
-  <body>
-    <h1>Cadastro de Aluno</h1>
-    <br/>
-    <form>
-      <label for="ra">RA: </label>
-      <input id="ra" type="number"/>
-      <br/>
-      <label for="nome">Nome: </label>
-      <input id="nome" type="text"/>
-      <br/>
-      <label for="cpf">CPF: </label>
-      <input id="cpf" type="text"/>
-      <br/>
-      <label for="endereco">Endereço: </label>
-      <input id="endereco" type="text"/>
-    </form>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>Sistema Acadêmico - UniALFA</title>
+</head>
+<body>
+
+<h1>Cadastro de Aluno</h1>
+<br/>
+<form th:action="@{/alunos/salvar}" th:object="${aluno}" method="post">
+  <label for="ra">RA: </label>
+  <input id="ra" type="number" th:field="*{ra}" required/>
+  <br/>
+  <label for="nomeAluno">Nome: </label>
+  <input id="nomeAluno" type="text" th:field="*{nome}" required/>
+  <br/>
+  <label for="cpf">CPF: </label>
+  <input id="cpf" type="text" th:field="*{cpf}" required/>
+  <br/>
+  <label for="enderecoAluno">Endereço: </label>
+  <input id="enderecoAluno" type="text" th:field="*{endereco}"/>
+  <br/><br/>
+  <button type="submit">Salvar Aluno</button>
+</form>
+
+<hr/>
+
+<h1>Cadastro de Professor</h1>
+<br/>
+<form th:action="@{/professores/salvar}" th:object="${professor}" method="post">
+  <input type="hidden" th:field="*{id}"/>
+
+  <label for="nomeProf">Nome: </label>
+  <input id="nomeProf" type="text" th:field="*{nome}" required/>
+  <br/>
+  <label for="titulo">Título: </label>
+  <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ex: Mestre, Doutor" required/>
+  <br/>
+  <label for="enderecoProf">Endereço: </label>
+  <input id="enderecoProf" type="text" th:field="*{endereco}"/>
+  <br/><br/>
+  <button type="submit">Salvar Professor</button>
+</form>
+
+</body>
 </html>

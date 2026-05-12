@@ -3,31 +3,39 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "professor")
 public class Professor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private  String nome;
+
+    @Column(nullable = false)
+    private String nome;
+
+    @Column(nullable = false)
     private String titulo;
 
     @Column(name = "PROFESSOR_ENDEREÇO")
     private String endereco;
 
-    public String getEndereco() {
-        return endereco;
+    public Professor() {
     }
 
-    public void setEndereco(String endereco) {
+    public Professor(Long id, String nome, String titulo, String endereco) {
+        this.id = id;
+        this.nome = nome;
+        this.titulo = titulo;
         this.endereco = endereco;
     }
 
-    public String getTitulo() {
-        return titulo;
+    // Getters e Setters
+    public Long getId() {
+        return id;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -38,12 +46,29 @@ public class Professor {
         this.nome = nome;
     }
 
-    public Long getId() {
-        return id;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    @Override
+    public String toString() {
+        return "Professor{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", endereco='" + endereco + '\'' +
+                '}';
     }
 }
-

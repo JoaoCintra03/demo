@@ -1,23 +1,44 @@
 package com.example.demo.service;
 
+import com.example.demo.dao.ProfessorDao;
 import com.example.demo.model.Professor;
-import com.example.demo.repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ProfessorService {
 
     @Autowired
-    private ProfessorRepository repository;
+    private ProfessorDao professorDao;
 
-    public Professor salvar(Professor entity) {
-        return repository.save(entity);
+    public Professor buscarPorId(Long id) {
+        return (Professor) professorDao.buscarPorId(id);
     }
 
-    public List<Professor> listar(){
-        return repository.findAll();
+    public List<Professor> listarProfessores() {
+        List<Professor> professores = new ArrayList<>();
+        professorDao.listar().forEach(o -> professores.add((Professor) o));
+        return professores;
+    }
+
+    public boolean salvar(Professor professor) {
+        if (professor.getId() == null) {
+            return professorDao.salvar(professor);
+        } else {
+            Professor existente = (Professor) professorDao.buscarPorId(professor.getId());
+
+            if (existente == null || existente.getNome() == null) {
+                return professorDao.salvar(professor);
+            } else {
+                return professorDao.atualizar(professor);
+            }
+        }
+    }
+
+    public boolean remover(Long id) {
+        return professorDao.deletar(id);
     }
 }

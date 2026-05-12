@@ -1,29 +1,31 @@
 package com.example.demo.dao;
 
-
 import com.example.demo.model.Aluno;
+import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class AlunoDao extends Dao implements DaoInterface {
+
     @Override
     public boolean salvar(Object entity) {
         try {
             Aluno aluno = (Aluno) entity;
 
-            String sqlInsert = "insert into aluno(nome,cpf,endereco) values(?,?,?)";
-
-            java.sql.PreparedStatement ps = getConnection().prepareStatement(sqlInsert);
-            ps.setString(1, aluno.getNome());
-            ps.setString(2, aluno.getCpf());
-            ps.setString(3, aluno.getEndereco());
+            String sql = "INSERT INTO aluno(ra, nome, cpf, endereco) VALUES(?, ?, ?, ?)";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setLong(1, aluno.getRa());
+            ps.setString(2, aluno.getNome());
+            ps.setString(3, aluno.getCpf());
+            ps.setString(4, aluno.getEndereco());
             ps.execute();
-
+            getConnection().commit(); // ← adicione isso
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erro ao salvar: " + e.getMessage());
             return false;
         }
     }
@@ -31,11 +33,10 @@ public class AlunoDao extends Dao implements DaoInterface {
     @Override
     public boolean atualizar(Object entity) {
         try {
-            var aluno = (Aluno) entity;
+            Aluno aluno = (Aluno) entity;
 
-            String sqlUpdate = "UPDATE aluno SET nome=?, cpf=?, endereco=? WHERE ra=?";
-
-            var ps = getConnection().prepareStatement(sqlUpdate);
+            String sql = "UPDATE aluno SET nome=?, cpf=?, endereco=? WHERE ra=?";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setString(1, aluno.getNome());
             ps.setString(2, aluno.getCpf());
             ps.setString(3, aluno.getEndereco());
@@ -44,57 +45,56 @@ public class AlunoDao extends Dao implements DaoInterface {
 
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erro ao atualizar: " + e.getMessage());
             return false;
         }
     }
 
     @Override
     public List<Object> listar() {
-        List<Aluno> alunos = new ArrayList<>();
+        List<Object> alunos = new ArrayList<>();
 
         try {
-            var resultSet = getConnection()
-                    .prepareStatement("select * from aluno")
-                    .executeQuery();
+            String sql = "SELECT * FROM aluno";
+            var rs = getConnection().prepareStatement(sql).executeQuery();
 
-            while (resultSet.next()) {
-                var aluno = new Aluno(
-                        resultSet.getLong("ra"),
-                        resultSet.getString("nome"),
-                        resultSet.getString("cpf"),
-                        resultSet.getString("endereco")
-                );
-                alunos.add(aluno);
+            while (rs.next()) {
+                alunos.add(new Aluno(
+                        rs.getLong("ra"),
+                        rs.getString("nome"),
+                        rs.getString("cpf"),
+                        rs.getString("endereco")
+                ));
             }
 
-            resultSet.close();
-
+            rs.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erro ao listar: " + e.getMessage());
         }
 
-        return new ArrayList<>(alunos);
+        return alunos;
     }
 
     @Override
     public Object buscarPorId(Long id) {
-        var aluno = new Aluno();
+        Aluno aluno = new Aluno();
+
         try {
-            String sqlRequest = "select * from aluno where ra=?";
-            PreparedStatement ps = getConnection().prepareStatement(sqlRequest);
+            String sql = "SELECT * FROM aluno WHERE ra=?";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setLong(1, id);
             var rs = ps.executeQuery();
 
-            while (rs.next()) {
+            if (rs.next()) {
                 aluno.setRa(rs.getLong("ra"));
                 aluno.setNome(rs.getString("nome"));
                 aluno.setCpf(rs.getString("cpf"));
                 aluno.setEndereco(rs.getString("endereco"));
             }
+
             rs.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Erro ao buscar: " + e.getMessage());
         }
 
         return aluno;
@@ -102,14 +102,14 @@ public class AlunoDao extends Dao implements DaoInterface {
 
     @Override
     public boolean deletar(Long id) {
-        try{
-            String sqlDelete = "DELETE FROM aluno WHERE ra=?";
-            var ps = getConnection().prepareStatement(sqlDelete);
+        try {
+            String sql = "DELETE FROM aluno WHERE ra=?";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setLong(1, id);
             ps.execute();
             return true;
-        } catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erro ao deletar: " + e.getMessage());
             return false;
         }
     }

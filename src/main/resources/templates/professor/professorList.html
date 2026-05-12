@@ -1,35 +1,28 @@
-<div class="container" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div class="p-3 m-0 border-0 bd-example m-0 border-0">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a class="btn btn-primary" th:href="@{/professores/new}">Novo</a>
-        </div>
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/fragments :: head}"></head>
+<body>
+<nav th:replace="~{fragments/fragments :: navbar}"></nav>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Gestão de Professores</h2>
+        <a th:href="@{/professores/novo}" class="btn btn-dark">
+            <i class="bi bi-plus-circle"></i> Cadastrar Novo Professor
+        </a>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Título</th>
-            <th>Endereço</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
+    <div class="card shadow">
+        <div class="card-body">
+            <div th:replace="~{fragments/fragments :: tabelaProfessores(${professores})}"></div>
 
-        <tbody>
-        <tr th:each="professor : ${professores}">
-            <td th:text="${professor.id}">id</td>
-            <td th:text="${professor.nome}">Nome</td>
-            <td th:text="${professor.titulo}">Título</td>
-            <td th:text="${professor.endereco}">Endereço</td>
-            <td>
-                <a class="btn btn-outline-success"
-                   th:href="@{'/professores/alterar/' + ${professor.id}}">Editar</a>
-
-                <a class="btn btn-outline-danger"
-                   th:href="@{'/professores/remover/' + ${professor.id}}">Remover</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            <div th:if="${#lists.isEmpty(professores)}" class="alert alert-info mt-3 text-center">
+                Nenhum professor encontrado na base de dados.
+            </div>
+        </div>
+    </div>
 </div>
+
+<div th:replace="~{fragments/fragments :: scripts}"></div>
+</body>
+</html>
