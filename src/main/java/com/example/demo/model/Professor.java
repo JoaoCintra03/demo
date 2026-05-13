@@ -29,7 +29,6 @@ public class Professor {
         this.endereco = endereco;
     }
 
-    // Getters e Setters
     public Long getId() {
         return id;
     }
